@@ -1,0 +1,59 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#0066cc', 'secondaryColor': '#66b2ff', 'tertiaryColor': '#cce6ff', 'lineColor': '#333333', 'fontSize': '12px'}}}%%
+flowchart TD
+    %% Decision Rules Layer
+    subgraph DR[Decision Rules (Architectural Principles)]
+        direction TB
+        L1[L1: Recovery owns ALL deviations<br/>from intended coordination outcome<br/>(Resolves Coord vs Recovery boundary)]
+        L2[L2: Session owns capacity.<br/>Booking owns financial commitment.<br/>Seat allocation MUST NOT depend<br/>synchronously on payment finalization.<br/>(Prevents deadlocks)]
+        L3[L3: Policies are stateless,<br/>do not orchestrate, do not call external<br/>systems, only evaluate and emit decisions.<br/>(Prevents Policy Layer from becoming god layer)]
+        L4[L4: TrustScore = f(use_case, skill,<br/>reliability, financial, community).<br/>Use-case binding is mandatory.<br/>(No generic reputation service)]
+        L5[L5: Host PROVIDES capabilities.<br/>Coordination OWNS game assembly.<br/>Host is never an orchestrator.<br/>(Prevents Host from becoming hidden Coordination layer)]
+        L6[L6: Inventory = physical truth.<br/>Partner Relations = contractual truth.<br/>Availability ≠ entitlement.<br/>Pricing ≠ negotiation terms.<br/>(Two contexts, two kinds of truth)]
+        L7[L7: Build order: Events → Aggregates →<br/>Policies → Workflows. NEVER the reverse.<br/>(Forces fact-first thinking)]
+        L8[L8: Each sheet maps to ONE layer:<br/>Domain Facts | Aggregates | Policies |<br/>Workflows | ACLs. No mixing.<br/>(Physical layer separation mirrors logical)]
+    end
+    
+    %% Guardrails Layer
+    subgraph GR[Guardrails (Enforceable Constraints)]
+        direction TB
+        DG1[DG-1: Trust Composition Purity<br/>• NO persisted composed_score<br/>• Pure stateless versioned function<br/>• Caches for performance only<br/>• Every call MUST pass use_case]
+        DG2[DG-2: Host Boundary<br/>• Host emits ONLY capability/obligation events<br/>• Host MUST NOT mutate coordination state<br/>• Host MUST NOT trigger workflows<br/>• Host CANNOT be in saga orchestration]
+        DG3[DG-3: Policy Layer Purity<br/>• Policies MUST NOT call external systems<br/>• Policies MUST NOT orchestrate workflows<br/>• Policies MUST NOT emit domain events directly<br/>• Policies MUST NOT store state<br/>• Policies CONSUME facts and RETURN decisions only]
+        DG4[DG-4: Recovery Isolation<br/>• ALL deviation events owned by Recovery<br/>• Coordination MUST NOT contain cancellation logic<br/>• Coordination MUST NOT compute penalties/refunds<br/>• Recovery MUST NOT redefine original intent<br/>• Recovery MUST NOT mutate coordination history]
+    end
+    
+    %% Layered Architecture
+    subgraph LAYER[Layered Architecture (L8 Implementation)]
+        direction TB
+        DF[Domain Facts Layer<br/>(Events, Snapshots, Immutable Records)]
+        AGG[Aggregates Layer<br/>(Game, Session, Booking, Match,<br/>Profiles, Cases, etc.)]
+        POL[Policies Layer<br/>(Stateless decision functions)]
+        WKFL[Workflows Layer<br/>(Orchestrated processes)]
+        ACL[Anti-Corruption Layer<br/>(Bounded context interfaces)]
+    end
+    
+    %% Connections
+    %% Decision Rules to Guardrails
+    L1 -->|Implements| DG4
+    L2 -->|Supports| DG2
+    L3 -->|Implements| DG3
+    L4 -->|Implements| DG1
+    L5 -->|Implements| DG2
+    L6 -->|Supports| DG1,DG2
+    L7 -->|Enforced by| LAYER
+    L8 -->|Defines| LAYER
+    
+    %% Guardrails to Layers
+    DG1 -->|Enforces| POL
+    DG2 -->|Enforces| AGG,ACL
+    DG3 -->|Enforces| POL
+    DG4 -->|Enforces| AGG
+    
+    %% Styling
+    classDef decisionRule fill:#cce6ff,stroke:#0066cc,stroke-width:2px;
+    classDef guardrail fill:#ffe6cc,stroke:#cc6600,stroke-width:2px;
+    classDef layer fill:#e6ffe6,stroke:#009900,stroke-width:2px;
+    
+    class L1,L2,L3,L4,L5,L6,L7,L8 decisionRule;
+    class DG1,DG2,DG3,DG4 guardrail;
+    class DF,AGG,POL,WKFL,ACL layer;
