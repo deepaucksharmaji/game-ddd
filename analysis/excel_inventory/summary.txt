@@ -1,0 +1,11 @@
+Excel Inventory Summary
+Generated: 2026-04-14T04:06:10.877132Z
+Workbooks scanned (xlsx/xls): 5
+Total sheets discovered: 72
+
+Top headers observed (sample):
+- Subdomain: seen in 4 sheets
+- Violates DG?: seen in 3 sheets
+- #: seen in 2 sheets
+- Owning Context: seen in 2 sheets
+- Consistency Class: seen in 2 sheets

@@ -1,0 +1,367 @@
+[
+  {
+    "canonical_header": "col_1",
+    "notes": "",
+    "raw_header": "#"
+  },
+  {
+    "canonical_header": "decision_locked",
+    "notes": "",
+    "raw_header": "Decision Locked"
+  },
+  {
+    "canonical_header": "rationale",
+    "notes": "",
+    "raw_header": "Rationale"
+  },
+  {
+    "canonical_header": "source",
+    "notes": "",
+    "raw_header": "Source"
+  },
+  {
+    "canonical_header": "event",
+    "notes": "",
+    "raw_header": "Event"
+  },
+  {
+    "canonical_header": "owning_context_1",
+    "notes": "",
+    "raw_header": "Owning Context"
+  },
+  {
+    "canonical_header": "subdomain_3",
+    "notes": "",
+    "raw_header": "Subdomain"
+  },
+  {
+    "canonical_header": "trigger_what_just_happened_in_the_world",
+    "notes": "",
+    "raw_header": "Trigger (what just happened in the world)"
+  },
+  {
+    "canonical_header": "payload",
+    "notes": "",
+    "raw_header": "Payload"
+  },
+  {
+    "canonical_header": "consistency_class_1",
+    "notes": "",
+    "raw_header": "Consistency Class"
+  },
+  {
+    "canonical_header": "idempotency_key_1",
+    "notes": "",
+    "raw_header": "Idempotency Key"
+  },
+  {
+    "canonical_header": "aggregate",
+    "notes": "",
+    "raw_header": "Aggregate"
+  },
+  {
+    "canonical_header": "owns",
+    "notes": "",
+    "raw_header": "Owns"
+  },
+  {
+    "canonical_header": "invariants",
+    "notes": "",
+    "raw_header": "Invariants"
+  },
+  {
+    "canonical_header": "emits",
+    "notes": "",
+    "raw_header": "Emits"
+  },
+  {
+    "canonical_header": "policy",
+    "notes": "",
+    "raw_header": "Policy"
+  },
+  {
+    "canonical_header": "use_cases",
+    "notes": "",
+    "raw_header": "Use Cases"
+  },
+  {
+    "canonical_header": "inputs",
+    "notes": "",
+    "raw_header": "Inputs"
+  },
+  {
+    "canonical_header": "output_decision",
+    "notes": "",
+    "raw_header": "Output (Decision)"
+  },
+  {
+    "canonical_header": "stateless",
+    "notes": "",
+    "raw_header": "Stateless?"
+  },
+  {
+    "canonical_header": "versioned",
+    "notes": "",
+    "raw_header": "Versioned?"
+  },
+  {
+    "canonical_header": "forbidden_behavior",
+    "notes": "",
+    "raw_header": "Forbidden Behavior"
+  },
+  {
+    "canonical_header": "workflow",
+    "notes": "",
+    "raw_header": "Workflow"
+  },
+  {
+    "canonical_header": "trigger_event",
+    "notes": "",
+    "raw_header": "Trigger Event"
+  },
+  {
+    "canonical_header": "steps_forward",
+    "notes": "",
+    "raw_header": "Steps (forward)"
+  },
+  {
+    "canonical_header": "compensation",
+    "notes": "",
+    "raw_header": "Compensation"
+  },
+  {
+    "canonical_header": "acl",
+    "notes": "",
+    "raw_header": "ACL"
+  },
+  {
+    "canonical_header": "external_system",
+    "notes": "",
+    "raw_header": "External System"
+  },
+  {
+    "canonical_header": "internal_concept_protected",
+    "notes": "",
+    "raw_header": "Internal Concept Protected"
+  },
+  {
+    "canonical_header": "translation_direction",
+    "notes": "",
+    "raw_header": "Translation Direction"
+  },
+  {
+    "canonical_header": "what_it_forbids",
+    "notes": "",
+    "raw_header": "What it Forbids"
+  },
+  {
+    "canonical_header": "projection",
+    "notes": "",
+    "raw_header": "Projection"
+  },
+  {
+    "canonical_header": "source_events",
+    "notes": "",
+    "raw_header": "Source Events"
+  },
+  {
+    "canonical_header": "purpose",
+    "notes": "",
+    "raw_header": "Purpose"
+  },
+  {
+    "canonical_header": "why_not_an_aggregate",
+    "notes": "",
+    "raw_header": "Why NOT an Aggregate"
+  },
+  {
+    "canonical_header": "guard",
+    "notes": "",
+    "raw_header": "Guard"
+  },
+  {
+    "canonical_header": "protects",
+    "notes": "",
+    "raw_header": "Protects"
+  },
+  {
+    "canonical_header": "hard_rules",
+    "notes": "",
+    "raw_header": "Hard Rules"
+  },
+  {
+    "canonical_header": "structural_test_when_violated",
+    "notes": "",
+    "raw_header": "Structural Test (when violated)"
+  },
+  {
+    "canonical_header": "detection_signal_in_code",
+    "notes": "",
+    "raw_header": "Detection Signal in Code"
+  },
+  {
+    "canonical_header": "term",
+    "notes": "",
+    "raw_header": "Term"
+  },
+  {
+    "canonical_header": "one_source_of_truth_meaning",
+    "notes": "",
+    "raw_header": "ONE Source-of-Truth Meaning"
+  },
+  {
+    "canonical_header": "what_it_is_not",
+    "notes": "",
+    "raw_header": "What It Is NOT"
+  },
+  {
+    "canonical_header": "code_discipline",
+    "notes": "",
+    "raw_header": "Code Discipline"
+  },
+  {
+    "canonical_header": "violates_dg_2",
+    "notes": "",
+    "raw_header": "Violates DG?"
+  },
+  {
+    "canonical_header": "aggregate_operation",
+    "notes": "",
+    "raw_header": "Aggregate.Operation"
+  },
+  {
+    "canonical_header": "concurrency_strategy",
+    "notes": "",
+    "raw_header": "Concurrency Strategy"
+  },
+  {
+    "canonical_header": "partition_key",
+    "notes": "",
+    "raw_header": "Partition Key"
+  },
+  {
+    "canonical_header": "db_pattern",
+    "notes": "",
+    "raw_header": "DB Pattern"
+  },
+  {
+    "canonical_header": "saga",
+    "notes": "",
+    "raw_header": "Saga"
+  },
+  {
+    "canonical_header": "trigger",
+    "notes": "",
+    "raw_header": "Trigger"
+  },
+  {
+    "canonical_header": "step",
+    "notes": "",
+    "raw_header": "Step"
+  },
+  {
+    "canonical_header": "action",
+    "notes": "",
+    "raw_header": "Action"
+  },
+  {
+    "canonical_header": "on_failure",
+    "notes": "",
+    "raw_header": "On Failure"
+  },
+  {
+    "canonical_header": "owner",
+    "notes": "",
+    "raw_header": "Owner"
+  },
+  {
+    "canonical_header": "scenario",
+    "notes": "",
+    "raw_header": "Scenario"
+  },
+  {
+    "canonical_header": "expected_v6_behavior",
+    "notes": "",
+    "raw_header": "Expected v6 Behavior"
+  },
+  {
+    "canonical_header": "drift_guard_engaged",
+    "notes": "",
+    "raw_header": "Drift Guard Engaged"
+  },
+  {
+    "canonical_header": "aspect",
+    "notes": "",
+    "raw_header": "Aspect"
+  },
+  {
+    "canonical_header": "test_detail",
+    "notes": "",
+    "raw_header": "Test Detail"
+  },
+  {
+    "canonical_header": "how_v6_handles_it",
+    "notes": "",
+    "raw_header": "How v6 Handles It"
+  },
+  {
+    "canonical_header": "verdict",
+    "notes": "",
+    "raw_header": "Verdict"
+  },
+  {
+    "canonical_header": "drift_guard",
+    "notes": "",
+    "raw_header": "Drift Guard"
+  },
+  {
+    "canonical_header": "classification",
+    "notes": "",
+    "raw_header": "Classification"
+  },
+  {
+    "canonical_header": "bounded_context",
+    "notes": "",
+    "raw_header": "Bounded Context"
+  },
+  {
+    "canonical_header": "aggregate_root",
+    "notes": "",
+    "raw_header": "Aggregate Root"
+  },
+  {
+    "canonical_header": "entities_within",
+    "notes": "",
+    "raw_header": "Entities Within"
+  },
+  {
+    "canonical_header": "value_objects",
+    "notes": "",
+    "raw_header": "Value Objects"
+  },
+  {
+    "canonical_header": "notes",
+    "notes": "",
+    "raw_header": "Notes"
+  },
+  {
+    "canonical_header": "layer",
+    "notes": "",
+    "raw_header": "Layer"
+  },
+  {
+    "canonical_header": "element",
+    "notes": "",
+    "raw_header": "Element"
+  },
+  {
+    "canonical_header": "why_it_s_not_in_the_domain_map",
+    "notes": "",
+    "raw_header": "Why It's Not in the Domain Map"
+  },
+  {
+    "canonical_header": "lives_in",
+    "notes": "",
+    "raw_header": "Lives In"
+  }
+]
