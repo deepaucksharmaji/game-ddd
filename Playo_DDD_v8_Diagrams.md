@@ -1,4 +1,4 @@
-# Playo DDD v8 — Diagram Set
+#  DDD v8 — Diagram Set
 
 This file is a **view onto `Playo_DDD_v8.xlsx`**, not a separate model. Every node, edge, state, command, and event in these diagrams traces to an ID in the workbook. If a diagram disagrees with the workbook, the workbook wins — diagrams are regenerable.
 
