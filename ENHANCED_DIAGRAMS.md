@@ -57,38 +57,67 @@ timeline
 
 ```mermaid
 flowchart TD
-    subgraph FOUNDATION[L1-L8: Foundation Locked Decisions]
-        L1[L1: Recovery owns ALL deviations<br/>Single emitter of canonical failure events]
-        L2[L2: Session owns capacity<br/>Booking owns financial commitment<br/>ASYNC separation]
-        L3[L3: Policies are stateless<br/>No orchestration, no side effects]
-        L4[L4: TrustScore = f(use_case, profiles)<br/>Use-case binding MANDATORY]
-        L5[L5: Host provides capabilities<br/>Coordination owns assembly]
-        L6[L6: Inventory = physical truth<br/>Partner = contractual truth]
-        L7[L7: Build order<br/>Events → Aggregates → Policies → Workflows]
-        L8[L8: Sheet = Layer<br/>Physical separation mirrors logical]
+    subgraph FOUNDATION["L1-L8: Foundation Locked Decisions"]
+        L1["L1: Recovery owns ALL deviations
+        Single emitter of canonical failure events"]
+        L2["L2: Session owns capacity
+        Booking owns financial commitment
+        ASYNC separation"]
+        L3["L3: Policies are stateless
+        No orchestration, no side effects"]
+        L4["L4: TrustScore = f(use_case, profiles)
+        Use-case binding MANDATORY"]
+        L5["L5: Host provides capabilities
+        Coordination owns assembly"]
+        L6["L6: Inventory = physical truth
+        Partner = contractual truth"]
+        L7["L7: Build order
+        Events → Aggregates → Policies → Workflows"]
+        L8["L8: Sheet = Layer
+        Physical separation mirrors logical"]
     end
 
-    subgraph GUARDS[DG-1 to DG-7: Enforcement Guards]
-        DG1[DG-1: Trust Composition Purity<br/>❌ NO persisted composed score<br/>❌ NO cache-dependent decisions<br/>✅ Use-case parameter REQUIRED]
+    subgraph GUARDS["DG-1 to DG-7: Enforcement Guards"]
+        DG1["DG-1: Trust Composition Purity
+        ❌ NO persisted composed score
+        ❌ NO cache-dependent decisions
+        ✅ Use-case parameter REQUIRED"]
         
-        DG2[DG-2: Host Boundary<br/>❌ NO coordination state mutation<br/>❌ NO workflow triggering<br/>✅ Capability events ONLY]
+        DG2["DG-2: Host Boundary
+        ❌ NO coordination state mutation
+        ❌ NO workflow triggering
+        ✅ Capability events ONLY"]
         
-        DG3[DG-3: Policy Purity<br/>❌ NO database writes<br/>❌ NO network calls<br/>❌ NO event emission<br/>✅ Pure decision functions]
+        DG3["DG-3: Policy Purity
+        ❌ NO database writes
+        ❌ NO network calls
+        ❌ NO event emission
+        ✅ Pure decision functions"]
         
-        DG45[DG-4/5: Deviation Translation<br/>Aggregates emit *DeviationRequested<br/>Recovery emits canonical *Cancelled]
+        DG45["DG-4/5: Deviation Translation
+        Aggregates emit *DeviationRequested
+        Recovery emits canonical *Cancelled"]
         
-        DG6[DG-6: Value Object Immutability<br/>VOs are immutable after creation]
+        DG6["DG-6: Value Object Immutability
+        VOs are immutable after creation"]
         
-        DG7[DG-7: Aggregate Operation Isolation<br/>Commands 1:1 with aggregate methods]
+        DG7["DG-7: Aggregate Operation Isolation
+        Commands 1:1 with aggregate methods"]
     end
 
-    subgraph OPERATIONAL[L9-L19: Operational Constraints]
-        L9[L9: Booking 1:1 with Seat<br/>Strict cardinality]
-        L10[L10: Recovery single emitter<br/>Canonical failure events]
-        L14[L14: Replacement filter<br/>skill ∧ geo ∧ reliability]
-        L15[L15: PeerReview sealing<br/>Reciprocal OR 14d]
-        L16[L16: Idempotency strategy<br/>Per aggregate]
-        L19[L19: Service block isolation<br/>No aggregate sharing]
+    subgraph OPERATIONAL["L9-L19: Operational Constraints"]
+        L9["L9: Booking 1:1 with Seat
+        Strict cardinality"]
+        L10["L10: Recovery single emitter
+        Canonical failure events"]
+        L14["L14: Replacement filter
+        skill ∧ geo ∧ reliability"]
+        L15["L15: PeerReview sealing
+        Reciprocal OR 14d"]
+        L16["L16: Idempotency strategy
+        Per aggregate"]
+        L19["L19: Service block isolation
+        No aggregate sharing"]
     end
 
     %% Enforcement relationships
@@ -121,41 +150,69 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    subgraph PROFILES[4 Trust Profiles · Append-Only · Never Composed]
-        SKILL[SkillProfile<br/>📊 mu/sigma per sport<br/>Source: MatchCompleted, PeerReviewRevealed]
-        REL[ReliabilityProfile<br/>📈 attendance rate, sample size<br/>Source: CheckInRecorded, NoShowCaseOpened]
-        FIN[FinancialTrustProfile<br/>💰 payment discipline, BNPL rate<br/>Source: PaymentCaptured, BNPLDefaulted]
-        COMM[CommunityStanding<br/>👥 peer aggregate, connections<br/>Source: PeerReviewRevealed, PlayPalConfirmed]
+    subgraph PROFILES["4 Trust Profiles · Append-Only · Never Composed"]
+        SKILL["SkillProfile
+        📊 mu/sigma per sport
+        Source: MatchCompleted, PeerReviewRevealed"]
+        REL["ReliabilityProfile
+        📈 attendance rate, sample size
+        Source: CheckInRecorded, NoShowCaseOpened"]
+        FIN["FinancialTrustProfile
+        💰 payment discipline, BNPL rate
+        Source: PaymentCaptured, BNPLDefaulted"]
+        COMM["CommunityStanding
+        👥 peer aggregate, connections
+        Source: PeerReviewRevealed, PlayPalConfirmed"]
     end
 
-    subgraph UC1[Use Case 1: Matchmaking Eligibility]
-        MM_INPUT[Inputs: Skill + Reliability]
-        MM_LOGIC{Decision Logic<br/>skill.mu in range?<br/>reliability.rate > threshold?}
-        MM_OUTPUT[Output: Eligible / Ineligible<br/>+ confidence score]
+    subgraph UC1["Use Case 1: Matchmaking Eligibility"]
+        MM_INPUT["Inputs: Skill + Reliability"]
+        MM_LOGIC{"Decision Logic
+        skill.mu in range?
+        reliability.rate > threshold?"}
+        MM_OUTPUT["Output: Eligible / Ineligible
+        + confidence score"]
     end
 
-    subgraph UC2[Use Case 2: BNPL Eligibility]
-        BNPL_INPUT[Inputs: Financial + Reliability]
-        BNPL_LOGIC{Decision Logic<br/>payment discipline > 0.9?<br/>BNPL default rate < 0.05?<br/>reliability.rate > 0.8?}
-        BNPL_OUTPUT[Output: Allow / Deny / RequireDeposit<br/>+ credit limit]
+    subgraph UC2["Use Case 2: BNPL Eligibility"]
+        BNPL_INPUT["Inputs: Financial + Reliability"]
+        BNPL_LOGIC{"Decision Logic
+        payment discipline > 0.9?
+        BNPL default rate < 0.05?
+        reliability.rate > 0.8?"}
+        BNPL_OUTPUT["Output: Allow / Deny / RequireDeposit
+        + credit limit"]
     end
 
-    subgraph UC3[Use Case 3: Replacement Candidacy]
-        REPL_INPUT[Inputs: Skill + Reliability + Geo]
-        REPL_LOGIC{Decision Logic<br/>skill match?<br/>reliability > 0.85?<br/>geo distance < 5km?<br/>no conflict with session?}
-        REPL_OUTPUT[Output: Ranked candidate list<br/>+ subsidy eligibility]
+    subgraph UC3["Use Case 3: Replacement Candidacy"]
+        REPL_INPUT["Inputs: Skill + Reliability + Geo"]
+        REPL_LOGIC{"Decision Logic
+        skill match?
+        reliability > 0.85?
+        geo distance < 5km?
+        no conflict with session?"}
+        REPL_OUTPUT["Output: Ranked candidate list
+        + subsidy eligibility"]
     end
 
-    subgraph UC4[Use Case 4: Host Delegation]
-        HOST_INPUT[Inputs: Reliability + Community]
-        HOST_LOGIC{Decision Logic<br/>reliability > 0.9?<br/>community standing > threshold?<br/>completion history > 20?}
-        HOST_OUTPUT[Output: Qualified / NotQualified<br/>+ delegation level]
+    subgraph UC4["Use Case 4: Host Delegation"]
+        HOST_INPUT["Inputs: Reliability + Community"]
+        HOST_LOGIC{"Decision Logic
+        reliability > 0.9?
+        community standing > threshold?
+        completion history > 20?"}
+        HOST_OUTPUT["Output: Qualified / NotQualified
+        + delegation level"]
     end
 
-    subgraph UC5[Use Case 5: Review Display]
-        DISP_INPUT[Inputs: Community + Skill]
-        DISP_LOGIC{Decision Logic<br/>peer aggregate credible?<br/>skill verified?<br/>dispute history?}
-        DISP_OUTPUT[Output: Display / Hide / Annotate<br/>+ credibility badge]
+    subgraph UC5["Use Case 5: Review Display"]
+        DISP_INPUT["Inputs: Community + Skill"]
+        DISP_LOGIC{"Decision Logic
+        peer aggregate credible?
+        skill verified?
+        dispute history?"}
+        DISP_OUTPUT["Output: Display / Hide / Annotate
+        + credibility badge"]
     end
 
     SKILL --> MM_INPUT
@@ -183,7 +240,11 @@ flowchart TD
     DISP_INPUT --> DISP_LOGIC
     DISP_LOGIC --> DISP_OUTPUT
 
-    FORBIDDEN[❌ FORBIDDEN<br/>NO getReputation(userId)<br/>NO single composed score<br/>NO cache-dependent decisions<br/>DG-1 VIOLATION]
+    FORBIDDEN["❌ FORBIDDEN
+    NO getReputation(userId)
+    NO single composed score
+    NO cache-dependent decisions
+    DG-1 VIOLATION"]
 
     SKILL -.->|❌| FORBIDDEN
     REL -.->|❌| FORBIDDEN
@@ -208,38 +269,65 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    subgraph INVARIANTS[Critical Invariants]
-        INV1[INV-COR-002<br/>held + confirmed ≤ capacity<br/>NEVER violated]
-        INV2[INV-COR-006<br/>Booking 1:1 with Seat<br/>unique(session, user)]
-        INV3[INV-COR-004<br/>Match immutable after completion<br/>Write-once]
-        INV4[INV-COM-005<br/>PeerReview immutable after Seal<br/>Content locked]
-        INV5[INV-TRUST-001<br/>No composed TrustScore<br/>Use-case binding required]
-        INV6[INV-REC-003<br/>Recovery single emitter<br/>Canonical events only]
-        INV7[INV-FIN-003<br/>Intent → Attempt → Payment<br/>Retry without losing Intent]
+    subgraph INVARIANTS["Critical Invariants"]
+        INV1["INV-COR-002
+        held + confirmed ≤ capacity
+        NEVER violated"]
+        INV2["INV-COR-006
+        Booking 1:1 with Seat
+        unique(session, user)"]
+        INV3["INV-COR-004
+        Match immutable after completion
+        Write-once"]
+        INV4["INV-COM-005
+        PeerReview immutable after Seal
+        Content locked"]
+        INV5["INV-TRUST-001
+        No composed TrustScore
+        Use-case binding required"]
+        INV6["INV-REC-003
+        Recovery single emitter
+        Canonical events only"]
+        INV7["INV-FIN-003
+        Intent → Attempt → Payment
+        Retry without losing Intent"]
     end
 
-    subgraph AGGREGATES[Aggregates Enforcing]
-        SESSION[Session<br/>Atomic counters + OCC]
-        BOOKING[Booking<br/>Unique constraint]
-        MATCH[Match<br/>Immutable after event]
-        PEER[PeerReview<br/>Sealed state]
-        TRUST[Trust Profiles<br/>Append-only]
-        RECOVERY[Recovery Cases<br/>Deviation lifecycle]
-        PAYMENT[PaymentIntent<br/>State machine]
+    subgraph AGGREGATES["Aggregates Enforcing"]
+        SESSION["Session
+        Atomic counters + OCC"]
+        BOOKING["Booking
+        Unique constraint"]
+        MATCH["Match
+        Immutable after event"]
+        PEER["PeerReview
+        Sealed state"]
+        TRUST["Trust Profiles
+        Append-only"]
+        RECOVERY["Recovery Cases
+        Deviation lifecycle"]
+        PAYMENT["PaymentIntent
+        State machine"]
     end
 
-    subgraph LOCKED[Enforced By Locked Decisions]
-        L2[L2: Capacity/Money async<br/>Prevents deadlocks]
-        L9[L9: Booking 1:1 Seat<br/>Strict cardinality]
-        L4[L4: Trust use-case bound<br/>No generic reputation]
-        L15[L15: PeerReview sealing<br/>Reciprocal OR 14d]
-        L1[L1: Recovery owns deviations<br/>Single emitter]
-        L10[L10: Canonical events<br/>Recovery only]
+    subgraph LOCKED["Enforced By Locked Decisions"]
+        L2["L2: Capacity/Money async
+        Prevents deadlocks"]
+        L9["L9: Booking 1:1 Seat
+        Strict cardinality"]
+        L4["L4: Trust use-case bound
+        No generic reputation"]
+        L15["L15: PeerReview sealing
+        Reciprocal OR 14d"]
+        L1["L1: Recovery owns deviations
+        Single emitter"]
+        L10["L10: Canonical events
+        Recovery only"]
     end
 
-    subgraph GUARDS[Enforced By Design Guards]
-        DG1[DG-1: Trust Composition Purity]
-        DG45[DG-4/5: Deviation Translation]
+    subgraph GUARDS["Enforced By Design Guards"]
+        DG1["DG-1: Trust Composition Purity"]
+        DG45["DG-4/5: Deviation Translation"]
     end
 
     INV1 --> SESSION
@@ -277,30 +365,56 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    subgraph SAG002[SAG-002: Booking Saga]
-        H1[1. SeatHeld<br/>TTL: 10min] --> H2[2. PaymentAuthorized<br/>Funds reserved]
-        H2 --> H3[3. PaymentCaptured<br/>Funds transferred]
-        H3 --> H4[4. SeatConfirmed<br/>Booking complete]
+    subgraph SAG002["SAG-002: Booking Saga"]
+        H1["1. SeatHeld
+        TTL: 10min"] --> H2["2. PaymentAuthorized
+        Funds reserved"]
+        H2 --> H3["3. PaymentCaptured
+        Funds transferred"]
+        H3 --> H4["4. SeatConfirmed
+        Booking complete"]
     end
 
-    subgraph COMP_GREEN[✅ Clean Compensations · No Trust Impact]
-        C1[TTL Expired<br/>→ SeatReleased<br/>→ No observation<br/>Reason: System timeout]
-        C2[Payment Failed<br/>→ BookingCancelled<br/>→ No observation<br/>Reason: Technical failure]
+    subgraph COMP_GREEN["✅ Clean Compensations · No Trust Impact"]
+        C1["TTL Expired
+        → SeatReleased
+        → No observation
+        Reason: System timeout"]
+        C2["Payment Failed
+        → BookingCancelled
+        → No observation
+        Reason: Technical failure"]
     end
 
-    subgraph COMP_YELLOW[⚠️ Partial Compensations · Conditional Trust Impact]
-        C3[Player Cancel Early<br/>→ RefundDecision Full<br/>→ No observation<br/>Reason: Within window]
-        C4[Player Cancel Late<br/>→ RefundDecision Partial<br/>→ ReliabilityObserved<br/>Reason: Outside window]
+    subgraph COMP_YELLOW["⚠️ Partial Compensations · Conditional Trust Impact"]
+        C3["Player Cancel Early
+        → RefundDecision Full
+        → No observation
+        Reason: Within window"]
+        C4["Player Cancel Late
+        → RefundDecision Partial
+        → ReliabilityObserved
+        Reason: Outside window"]
     end
 
-    subgraph COMP_RED[❌ Irreversible · Trust Impact Guaranteed]
-        C5[No-Show<br/>→ No refund<br/>→ ReliabilityPenalty<br/>→ Trust profile updated]
-        C6[Match Completed<br/>→ Immutable<br/>→ SkillProfileUpdated<br/>→ Cannot reverse]
+    subgraph COMP_RED["❌ Irreversible · Trust Impact Guaranteed"]
+        C5["No-Show
+        → No refund
+        → ReliabilityPenalty
+        → Trust profile updated"]
+        C6["Match Completed
+        → Immutable
+        → SkillProfileUpdated
+        → Cannot reverse"]
     end
 
-    subgraph REVERSAL[🔄 Dispute Reversal Path]
-        D1[DisputeCase Raised<br/>→ Evidence submitted<br/>→ Adjudication]
-        D2[DisputeResolved<br/>→ EVT-REC-012<br/>→ Observation reversed]
+    subgraph REVERSAL["🔄 Dispute Reversal Path"]
+        D1["DisputeCase Raised
+        → Evidence submitted
+        → Adjudication"]
+        D2["DisputeResolved
+        → EVT-REC-012
+        → Observation reversed"]
     end
 
     H1 -.->|compensates| C1
@@ -330,48 +444,107 @@ flowchart TD
 
 ```mermaid
 flowchart TB
-    subgraph CB[Coordination Block<br/>🚨 On-call: Team A<br/>📦 Deploy: Independent<br/>🔥 Change Freq: High]
-        COR[Coordination<br/>8 aggregates<br/>SLO: 99.9%]
-        REC[Recovery<br/>5 aggregates<br/>SLO: 99.95%]
-        MMK[Matchmaking<br/>3 aggregates<br/>SLO: 99.5%]
-        HOS[Hosting<br/>1 aggregate<br/>SLO: 99.5%]
+    subgraph CB["Coordination Block
+    🚨 On-call: Team A
+    📦 Deploy: Independent
+    🔥 Change Freq: High"]
+        COR["Coordination
+        8 aggregates
+        SLO: 99.9%"]
+        REC["Recovery
+        5 aggregates
+        SLO: 99.95%"]
+        MMK["Matchmaking
+        3 aggregates
+        SLO: 99.5%"]
+        HOS["Hosting
+        1 aggregate
+        SLO: 99.5%"]
     end
 
-    subgraph MB[Money Block<br/>🚨 On-call: Team B<br/>📦 Deploy: Independent<br/>🔥 Change Freq: Medium]
-        FIN[Financial<br/>8 aggregates<br/>SLO: 99.99%]
-        PRC[Pricing<br/>4 aggregates<br/>SLO: 99.9%]
-        PRT[Partner Relations<br/>2 aggregates<br/>SLO: 99.5%]
+    subgraph MB["Money Block
+    🚨 On-call: Team B
+    📦 Deploy: Independent
+    🔥 Change Freq: Medium"]
+        FIN["Financial
+        8 aggregates
+        SLO: 99.99%"]
+        PRC["Pricing
+        4 aggregates
+        SLO: 99.9%"]
+        PRT["Partner Relations
+        2 aggregates
+        SLO: 99.5%"]
     end
 
-    subgraph TBX[Trust Block<br/>🚨 On-call: Team C<br/>📦 Deploy: Independent<br/>🔥 Change Freq: Low]
-        TRS[Trust/Skill<br/>1 aggregate<br/>SLO: 99.5%]
-        TRR[Trust/Reliability<br/>1 aggregate<br/>SLO: 99.5%]
-        TRF[Trust/Financial<br/>1 aggregate<br/>SLO: 99.5%]
-        TRC[Trust/Community<br/>1 aggregate<br/>SLO: 99.5%]
+    subgraph TBX["Trust Block
+    🚨 On-call: Team C
+    📦 Deploy: Independent
+    🔥 Change Freq: Low"]
+        TRS["Trust/Skill
+        1 aggregate
+        SLO: 99.5%"]
+        TRR["Trust/Reliability
+        1 aggregate
+        SLO: 99.5%"]
+        TRF["Trust/Financial
+        1 aggregate
+        SLO: 99.5%"]
+        TRC["Trust/Community
+        1 aggregate
+        SLO: 99.5%"]
     end
 
-    subgraph OB[Operator Block<br/>🚨 On-call: Team D<br/>📦 Deploy: Independent<br/>🔥 Change Freq: Low]
-        INV[Inventory<br/>3 aggregates<br/>SLO: 99.9%]
-        TRN[Training<br/>3 aggregates<br/>SLO: 99.5%]
+    subgraph OB["Operator Block
+    🚨 On-call: Team D
+    📦 Deploy: Independent
+    🔥 Change Freq: Low"]
+        INV["Inventory
+        3 aggregates
+        SLO: 99.9%"]
+        TRN["Training
+        3 aggregates
+        SLO: 99.5%"]
     end
 
-    subgraph NB[Network Block<br/>🚨 On-call: Team E<br/>📦 Deploy: Independent<br/>🔥 Change Freq: Medium]
-        COM[Community<br/>4 aggregates<br/>SLO: 99.5%]
-        GAM[Gamification<br/>2 aggregates<br/>SLO: 99.0%]
+    subgraph NB["Network Block
+    🚨 On-call: Team E
+    📦 Deploy: Independent
+    🔥 Change Freq: Medium"]
+        COM["Community
+        4 aggregates
+        SLO: 99.5%"]
+        GAM["Gamification
+        2 aggregates
+        SLO: 99.0%"]
     end
 
-    subgraph PB[Platform Block<br/>🚨 On-call: Platform Team<br/>📦 Deploy: Shared<br/>🔥 Change Freq: Low]
-        IDN[Identity<br/>2 aggregates<br/>SLO: 99.99%]
-        ACL[ACLs<br/>Payment·Maps·Identity<br/>SLO: 99.95%]
+    subgraph PB["Platform Block
+    🚨 On-call: Platform Team
+    📦 Deploy: Shared
+    🔥 Change Freq: Low"]
+        IDN["Identity
+        2 aggregates
+        SLO: 99.99%"]
+        ACL["ACLs
+        Payment·Maps·Identity
+        SLO: 99.95%"]
     end
 
-    CB -->|Payment events<br/>Async via event bus| MB
-    CB -->|Observation events<br/>Async via event bus| TBX
-    CB -->|TimeSlot requests<br/>Sync via API| OB
-    MB -->|Trust events<br/>Async via event bus| TBX
-    NB -->|Trust events<br/>Async via event bus| TBX
-    PB -->|Identity events<br/>Async via event bus| CB
-    PB -->|Identity events<br/>Async via event bus| MB
+    CB -->|Payment events
+    Async via event bus| MB
+    CB -->|Observation events
+    Async via event bus| TBX
+    CB -->|TimeSlot requests
+    Sync via API| OB
+    MB -->|Trust events
+    Async via event bus| TBX
+    NB -->|Trust events
+    Async via event bus| TBX
+    PB -->|Identity events
+    Async via event bus| CB
+    PB -->|Identity events
+    Async via event bus| MB
 
     style CB fill:#D9534F,stroke:#7A1F1C,color:#fff,stroke-width:3px
     style MB fill:#5BC0DE,stroke:#1F5A73,color:#000,stroke-width:3px
@@ -450,33 +623,63 @@ timeline
 
 ```mermaid
 flowchart LR
-    subgraph PROJECTIONS[Read Models with Staleness SLOs]
-        GF[Game Feed<br/>📊 SLO: 30s eventual<br/>💥 Impact: Discovery delay<br/>🔄 Invalidation: GameProposed/Opened]
+    subgraph PROJECTIONS["Read Models with Staleness SLOs"]
+        GF["Game Feed
+        📊 SLO: 30s eventual
+        💥 Impact: Discovery delay
+        🔄 Invalidation: GameProposed/Opened"]
         
-        SD[Session Details<br/>📊 SLO: 5s eventual<br/>💥 Impact: Booking confusion<br/>🔄 Invalidation: SeatHeld/Confirmed]
+        SD["Session Details
+        📊 SLO: 5s eventual
+        💥 Impact: Booking confusion
+        🔄 Invalidation: SeatHeld/Confirmed"]
         
-        UP[User Profile<br/>📊 SLO: 10s eventual<br/>💥 Impact: History delay<br/>🔄 Invalidation: MatchCompleted]
+        UP["User Profile
+        📊 SLO: 10s eventual
+        💥 Impact: History delay
+        🔄 Invalidation: MatchCompleted"]
         
-        LB[Leaderboard<br/>📊 SLO: 5min eventual<br/>💥 Impact: Low (gamification)<br/>🔄 Invalidation: KarmaAwarded]
+        LB["Leaderboard
+        📊 SLO: 5min eventual
+        💥 Impact: Low (gamification)
+        🔄 Invalidation: KarmaAwarded"]
         
-        VC[Venue Catalog<br/>📊 SLO: 1h eventual<br/>💥 Impact: Low (browse)<br/>🔄 Invalidation: VenueOnboarded]
+        VC["Venue Catalog
+        📊 SLO: 1h eventual
+        💥 Impact: Low (browse)
+        🔄 Invalidation: VenueOnboarded"]
         
-        DF[Demand Forecast<br/>📊 SLO: 15min eventual<br/>💥 Impact: Internal only<br/>🔄 Invalidation: Booking patterns]
+        DF["Demand Forecast
+        📊 SLO: 15min eventual
+        💥 Impact: Internal only
+        🔄 Invalidation: Booking patterns"]
     end
 
-    subgraph EVENTS[Source Events]
-        E1[GameProposed<br/>GameOpened<br/>GameClosed]
-        E2[SessionScheduled<br/>SeatHeld<br/>SeatConfirmed]
-        E3[MatchCompleted<br/>TrustProfileUpdated]
-        E4[KarmaAwarded<br/>AchievementUnlocked]
-        E5[VenueOnboarded<br/>PartnerKYCCompleted]
-        E6[BookingCreated<br/>BookingConfirmed<br/>Historical patterns]
+    subgraph EVENTS["Source Events"]
+        E1["GameProposed
+        GameOpened
+        GameClosed"]
+        E2["SessionScheduled
+        SeatHeld
+        SeatConfirmed"]
+        E3["MatchCompleted
+        TrustProfileUpdated"]
+        E4["KarmaAwarded
+        AchievementUnlocked"]
+        E5["VenueOnboarded
+        PartnerKYCCompleted"]
+        E6["BookingCreated
+        BookingConfirmed
+        Historical patterns"]
     end
 
-    subgraph CACHE[Cache Strategy]
-        CACHE1[Write-through<br/>Immediate invalidation]
-        CACHE2[Write-behind<br/>Async invalidation]
-        CACHE3[TTL-based<br/>Periodic refresh]
+    subgraph CACHE["Cache Strategy"]
+        CACHE1["Write-through
+        Immediate invalidation"]
+        CACHE2["Write-behind
+        Async invalidation"]
+        CACHE3["TTL-based
+        Periodic refresh"]
     end
 
     E1 --> GF
@@ -510,35 +713,75 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    subgraph FAILURES[Failure Sources]
-        F1[💥 Payment Gateway Down<br/>Severity: Critical<br/>Frequency: Rare]
-        F2[💥 Venue Cancels<br/>Severity: High<br/>Frequency: Medium]
-        F3[💥 Host No-Show<br/>Severity: Medium<br/>Frequency: Low]
-        F4[💥 Player No-Show<br/>Severity: Low<br/>Frequency: High]
-        F5[💥 TimeSlot Unavailable<br/>Severity: Medium<br/>Frequency: Low]
-        F6[💥 BNPL Default<br/>Severity: Medium<br/>Frequency: Medium]
+    subgraph FAILURES["Failure Sources"]
+        F1["💥 Payment Gateway Down
+        Severity: Critical
+        Frequency: Rare"]
+        F2["💥 Venue Cancels
+        Severity: High
+        Frequency: Medium"]
+        F3["💥 Host No-Show
+        Severity: Medium
+        Frequency: Low"]
+        F4["💥 Player No-Show
+        Severity: Low
+        Frequency: High"]
+        F5["💥 TimeSlot Unavailable
+        Severity: Medium
+        Frequency: Low"]
+        F6["💥 BNPL Default
+        Severity: Medium
+        Frequency: Medium"]
     end
 
-    subgraph BLAST[Blast Radius]
-        BR1[🔥 Financial BC<br/>All payments blocked<br/>Affects: All bookings]
-        BR2[🔥 Coordination BC<br/>Sessions cancelled<br/>Affects: All players in session]
-        BR3[🔥 Trust BC<br/>Reliability impacted<br/>Affects: Single player]
-        BR4[🔥 Recovery BC<br/>Cases opened<br/>Affects: Deviation lifecycle]
-        BR5[🔥 Inventory BC<br/>TimeSlot released<br/>Affects: Single session]
+    subgraph BLAST["Blast Radius"]
+        BR1["🔥 Financial BC
+        All payments blocked
+        Affects: All bookings"]
+        BR2["🔥 Coordination BC
+        Sessions cancelled
+        Affects: All players in session"]
+        BR3["🔥 Trust BC
+        Reliability impacted
+        Affects: Single player"]
+        BR4["🔥 Recovery BC
+        Cases opened
+        Affects: Deviation lifecycle"]
+        BR5["🔥 Inventory BC
+        TimeSlot released
+        Affects: Single session"]
     end
 
-    subgraph CONTAINMENT[Saga Containment Strategy]
-        S1[SAG-002: Booking<br/>✅ Retry with different PSP<br/>✅ Intent stays Confirmed<br/>✅ Failover to PSP2]
+    subgraph CONTAINMENT["Saga Containment Strategy"]
+        S1["SAG-002: Booking
+        ✅ Retry with different PSP
+        ✅ Intent stays Confirmed
+        ✅ Failover to PSP2"]
         
-        S2[SAG-006: Venue Cancel<br/>✅ Cascade to all bookings<br/>✅ Full refunds<br/>✅ Replacement search]
+        S2["SAG-006: Venue Cancel
+        ✅ Cascade to all bookings
+        ✅ Full refunds
+        ✅ Replacement search"]
         
-        S3[SAG-005: Host Cancel<br/>✅ Replacement search<br/>✅ Subsidy decision<br/>✅ Notify candidates]
+        S3["SAG-005: Host Cancel
+        ✅ Replacement search
+        ✅ Subsidy decision
+        ✅ Notify candidates"]
         
-        S4[SAG-003: Player Cancel<br/>✅ Refund decision<br/>✅ Replacement search<br/>✅ Reliability observation]
+        S4["SAG-003: Player Cancel
+        ✅ Refund decision
+        ✅ Replacement search
+        ✅ Reliability observation"]
         
-        S5[SAG-001: Game-to-Session<br/>✅ TimeSlot release<br/>✅ GameAbandoned<br/>✅ No trust impact]
+        S5["SAG-001: Game-to-Session
+        ✅ TimeSlot release
+        ✅ GameAbandoned
+        ✅ No trust impact"]
         
-        S6[SAG-010: BNPL Default<br/>✅ Recovery case<br/>✅ Financial trust penalty<br/>✅ Collection workflow]
+        S6["SAG-010: BNPL Default
+        ✅ Recovery case
+        ✅ Financial trust penalty
+        ✅ Collection workflow"]
     end
 
     F1 --> BR1
@@ -573,34 +816,64 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    subgraph TIME_BOUNDED[⏱️ Time-Bounded Idempotency]
-        O1[HoldSeat<br/>Key: sessionId+userId+seatHoldId<br/>Window: TTL (10min)<br/>Reason: Seat hold expires]
+    subgraph TIME_BOUNDED["⏱️ Time-Bounded Idempotency"]
+        O1["HoldSeat
+        Key: sessionId+userId+seatHoldId
+        Window: TTL (10min)
+        Reason: Seat hold expires"]
         
-        O2[BeginPaymentAttempt<br/>Key: intentId+attemptId<br/>Window: Intent lifecycle<br/>Reason: Retry window]
+        O2["BeginPaymentAttempt
+        Key: intentId+attemptId
+        Window: Intent lifecycle
+        Reason: Retry window"]
     end
 
-    subgraph FOREVER[♾️ Forever-Unique Idempotency]
-        O3[CreateBooking<br/>Key: sessionId+userId<br/>Window: Forever<br/>Reason: Unique constraint]
+    subgraph FOREVER["♾️ Forever-Unique Idempotency"]
+        O3["CreateBooking
+        Key: sessionId+userId
+        Window: Forever
+        Reason: Unique constraint"]
         
-        O4[CreatePaymentIntent<br/>Key: bookingId<br/>Window: Forever<br/>Reason: 1:1 with booking]
+        O4["CreatePaymentIntent
+        Key: bookingId
+        Window: Forever
+        Reason: 1:1 with booking"]
         
-        O5[CapturePayment<br/>Key: pgRef<br/>Window: Forever<br/>Reason: External system ref]
+        O5["CapturePayment
+        Key: pgRef
+        Window: Forever
+        Reason: External system ref"]
         
-        O6[EmitCanonicalCancellation<br/>Key: caseId<br/>Window: Forever<br/>Reason: Single emission (L1)]
+        O6["EmitCanonicalCancellation
+        Key: caseId
+        Window: Forever
+        Reason: Single emission (L1)"]
         
-        O7[AppendSubsidyLedger<br/>Key: replacementCaseId<br/>Window: Forever<br/>Reason: Audit trail]
+        O7["AppendSubsidyLedger
+        Key: replacementCaseId
+        Window: Forever
+        Reason: Audit trail"]
     end
 
-    subgraph AGGREGATE_BOUNDED[🔒 Aggregate-Bounded Idempotency]
-        O8[ConfirmSeat<br/>Key: sessionId+userId<br/>Window: Session lifecycle<br/>Reason: Tied to aggregate]
+    subgraph AGGREGATE_BOUNDED["🔒 Aggregate-Bounded Idempotency"]
+        O8["ConfirmSeat
+        Key: sessionId+userId
+        Window: Session lifecycle
+        Reason: Tied to aggregate"]
         
-        O9[SealPeerReview<br/>Key: reviewId<br/>Window: Review lifecycle<br/>Reason: Immutable after seal]
+        O9["SealPeerReview
+        Key: reviewId
+        Window: Review lifecycle
+        Reason: Immutable after seal"]
     end
 
-    subgraph STRATEGIES[De-dup Strategy]
-        S1[TTL-based expiry<br/>Cleanup after window]
-        S2[Never expires<br/>Permanent record]
-        S3[Aggregate lifecycle<br/>Cleanup on aggregate delete]
+    subgraph STRATEGIES["De-dup Strategy"]
+        S1["TTL-based expiry
+        Cleanup after window"]
+        S2["Never expires
+        Permanent record"]
+        S3["Aggregate lifecycle
+        Cleanup on aggregate delete"]
     end
 
     O1 --> S1
@@ -701,7 +974,7 @@ sequenceDiagram
         
     else Window expires (14d)
         D->>D: Auto-transition to Expired
-        Note over D: Default to Void<br/>No impact on trust
+        Note over D: Default to Void - No impact on trust
     end
 
     Note over D: State: Resolved/Expired (terminal)
@@ -723,39 +996,85 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-    subgraph HIGH_REUSE[🔥 High Reuse VOs (3+ BCs) - Shared Kernel Candidates]
-        MONEY[Money<br/>VO-04<br/>Currency + amount<br/>Used by: Financial, Pricing, Booking, Partner<br/>Reuse: 4 BCs]
+    subgraph HIGH_REUSE["🔥 High Reuse VOs (3+ BCs) - Shared Kernel Candidates"]
+        MONEY["Money
+        VO-04
+        Currency + amount
+        Used by: Financial, Pricing, Booking, Partner
+        Reuse: 4 BCs"]
         
-        TIMEWINDOW[TimeWindow<br/>VO-02<br/>Start/end validation<br/>Used by: Coordination, Inventory, Training<br/>Reuse: 3 BCs]
+        TIMEWINDOW["TimeWindow
+        VO-02
+        Start/end validation
+        Used by: Coordination, Inventory, Training
+        Reuse: 3 BCs"]
         
-        GEO[Geo<br/>VO-06<br/>Lat/lng validation<br/>Used by: Inventory, Community, Training<br/>Reuse: 3 BCs]
+        GEO["Geo
+        VO-06
+        Lat/lng validation
+        Used by: Inventory, Community, Training
+        Reuse: 3 BCs"]
         
-        SPORT[Sport<br/>VO-01<br/>Enum validation<br/>Used by: Coordination, Inventory, Training<br/>Reuse: 3 BCs]
+        SPORT["Sport
+        VO-01
+        Enum validation
+        Used by: Coordination, Inventory, Training
+        Reuse: 3 BCs"]
     end
 
-    subgraph MEDIUM_REUSE[⚠️ Medium Reuse VOs (2 BCs)]
-        SKILL_RANGE[SkillRange<br/>VO-07<br/>Min/max validation<br/>Used by: Coordination, Trust/Skill<br/>Reuse: 2 BCs]
+    subgraph MEDIUM_REUSE["⚠️ Medium Reuse VOs (2 BCs)"]
+        SKILL_RANGE["SkillRange
+        VO-07
+        Min/max validation
+        Used by: Coordination, Trust/Skill
+        Reuse: 2 BCs"]
         
-        LOCATION[Location<br/>VO-03<br/>Address + geo<br/>Used by: Coordination, Inventory<br/>Reuse: 2 BCs]
+        LOCATION["Location
+        VO-03
+        Address + geo
+        Used by: Coordination, Inventory
+        Reuse: 2 BCs"]
         
-        BOOKING_STATUS[BookingStatus<br/>VO-08<br/>State enum<br/>Used by: Coordination, Financial<br/>Reuse: 2 BCs]
+        BOOKING_STATUS["BookingStatus
+        VO-08
+        State enum
+        Used by: Coordination, Financial
+        Reuse: 2 BCs"]
         
-        COMMISSION_RATE[CommissionRate<br/>VO-11<br/>Percentage validation<br/>Used by: Pricing, Partner<br/>Reuse: 2 BCs]
+        COMMISSION_RATE["CommissionRate
+        VO-11
+        Percentage validation
+        Used by: Pricing, Partner
+        Reuse: 2 BCs"]
     end
 
-    subgraph SINGLE_USE[✅ Single-Use VOs (1 BC)]
-        SESSION_STATUS[SessionStatus<br/>VO-05<br/>State enum<br/>Used by: Coordination only]
+    subgraph SINGLE_USE["✅ Single-Use VOs (1 BC)"]
+        SESSION_STATUS["SessionStatus
+        VO-05
+        State enum
+        Used by: Coordination only"]
         
-        PAYMENT_STATUS[PaymentStatus<br/>VO-09<br/>State enum<br/>Used by: Financial only]
+        PAYMENT_STATUS["PaymentStatus
+        VO-09
+        State enum
+        Used by: Financial only"]
         
-        TRUST_SCORE[TrustScore<br/>VO-10<br/>0-100 validation<br/>Used by: All 4 Trust BCs<br/>BUT: Never composed (DG-1)]
+        TRUST_SCORE["TrustScore
+        VO-10
+        0-100 validation
+        Used by: All 4 Trust BCs
+        BUT: Never composed (DG-1)"]
     end
 
-    subgraph DESIGN_CARE[Design Care Required]
-        DC1[Immutability enforcement<br/>DG-6]
-        DC2[Versioning strategy<br/>Breaking changes]
-        DC3[Validation consistency<br/>Across BCs]
-        DC4[Serialization format<br/>Wire compatibility]
+    subgraph DESIGN_CARE["Design Care Required"]
+        DC1["Immutability enforcement
+        DG-6"]
+        DC2["Versioning strategy
+        Breaking changes"]
+        DC3["Validation consistency
+        Across BCs"]
+        DC4["Serialization format
+        Wire compatibility"]
     end
 
     MONEY --> DC1
@@ -787,40 +1106,82 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    subgraph ORCHESTRATED[🎯 Orchestrated Sagas (Explicit Coordinator)]
-        O1[SAG-001: Game-to-Session<br/>Orchestrator: Coordination<br/>Why: Complex state machine<br/>Participants: Inventory, Pricing]
+    subgraph ORCHESTRATED["🎯 Orchestrated Sagas (Explicit Coordinator)"]
+        O1["SAG-001: Game-to-Session
+        Orchestrator: Coordination
+        Why: Complex state machine
+        Participants: Inventory, Pricing"]
         
-        O2[SAG-002: Booking<br/>Orchestrator: Coordination<br/>Why: Financial commitment<br/>Participants: Financial, Recovery]
+        O2["SAG-002: Booking
+        Orchestrator: Coordination
+        Why: Financial commitment
+        Participants: Financial, Recovery"]
         
-        O3[SAG-003: Player Cancel<br/>Orchestrator: Recovery<br/>Why: Deviation lifecycle<br/>Participants: Financial, Trust]
+        O3["SAG-003: Player Cancel
+        Orchestrator: Recovery
+        Why: Deviation lifecycle
+        Participants: Financial, Trust"]
         
-        O4[SAG-004: Replacement<br/>Orchestrator: Recovery<br/>Why: Multi-step search<br/>Participants: Matchmaking, Coordination]
+        O4["SAG-004: Replacement
+        Orchestrator: Recovery
+        Why: Multi-step search
+        Participants: Matchmaking, Coordination"]
         
-        O5[SAG-011: Waitlist Promote<br/>Orchestrator: Coordination<br/>Why: Seat allocation<br/>Participants: Financial]
+        O5["SAG-011: Waitlist Promote
+        Orchestrator: Coordination
+        Why: Seat allocation
+        Participants: Financial"]
     end
 
-    subgraph CHOREOGRAPHED[💃 Choreographed Sagas (Event-Driven)]
-        C1[SAG-007: Gamification<br/>Trigger: MatchCompleted<br/>Why: Low coupling<br/>Consumers: Gamification, Community]
+    subgraph CHOREOGRAPHED["💃 Choreographed Sagas (Event-Driven)"]
+        C1["SAG-007: Gamification
+        Trigger: MatchCompleted
+        Why: Low coupling
+        Consumers: Gamification, Community"]
         
-        C2[SAG-009: Community→Trust<br/>Trigger: PeerReviewRevealed<br/>Why: Observation pattern<br/>Consumers: Trust profiles]
+        C2["SAG-009: Community→Trust
+        Trigger: PeerReviewRevealed
+        Why: Observation pattern
+        Consumers: Trust profiles"]
         
-        C3[SAG-008: Yield/Subsidy<br/>Trigger: Cell thinness<br/>Why: Policy-driven<br/>Consumers: Pricing]
+        C3["SAG-008: Yield/Subsidy
+        Trigger: Cell thinness
+        Why: Policy-driven
+        Consumers: Pricing"]
     end
 
-    subgraph HYBRID[🔀 Hybrid Sagas (Mixed Pattern)]
-        H1[SAG-005: Host Cancel<br/>Orchestrator: Recovery<br/>Choreography: Cascade to bookings<br/>Why: Deviation + broadcast]
+    subgraph HYBRID["🔀 Hybrid Sagas (Mixed Pattern)"]
+        H1["SAG-005: Host Cancel
+        Orchestrator: Recovery
+        Choreography: Cascade to bookings
+        Why: Deviation + broadcast"]
         
-        H2[SAG-006: Venue Cancel<br/>Orchestrator: Recovery<br/>Choreography: Cascade to bookings<br/>Why: Deviation + broadcast]
+        H2["SAG-006: Venue Cancel
+        Orchestrator: Recovery
+        Choreography: Cascade to bookings
+        Why: Deviation + broadcast"]
         
-        H3[SAG-013: Dispute<br/>Orchestrator: Recovery<br/>Choreography: Observation reversal<br/>Why: Adjudication + broadcast]
+        H3["SAG-013: Dispute
+        Orchestrator: Recovery
+        Choreography: Observation reversal
+        Why: Adjudication + broadcast"]
     end
 
-    subgraph DECISION_FACTORS[Decision Factors]
-        DF1[Orchestration when:<br/>• Complex compensation<br/>• Financial commitment<br/>• Multi-step coordination]
+    subgraph DECISION_FACTORS["Decision Factors"]
+        DF1["Orchestration when:
+        • Complex compensation
+        • Financial commitment
+        • Multi-step coordination"]
         
-        DF2[Choreography when:<br/>• Low coupling desired<br/>• Observation pattern<br/>• Broadcast to many]
+        DF2["Choreography when:
+        • Low coupling desired
+        • Observation pattern
+        • Broadcast to many"]
         
-        DF3[Hybrid when:<br/>• Deviation + cascade<br/>• Adjudication + broadcast<br/>• Mixed concerns]
+        DF3["Hybrid when:
+        • Deviation + cascade
+        • Adjudication + broadcast
+        • Mixed concerns"]
     end
 
     O1 -.-> DF1
@@ -844,36 +1205,72 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    subgraph OCC[⚡ Optimistic Concurrency Control (OCC)]
-        OCC1[Session<br/>Strategy: Version counter<br/>Why: High contention on seat operations<br/>Retry: Client-side]
+    subgraph OCC["⚡ Optimistic Concurrency Control (OCC)"]
+        OCC1["Session
+        Strategy: Version counter
+        Why: High contention on seat operations
+        Retry: Client-side"]
         
-        OCC2[TimeSlot<br/>Strategy: Version counter<br/>Why: High contention on holds<br/>Retry: Client-side]
+        OCC2["TimeSlot
+        Strategy: Version counter
+        Why: High contention on holds
+        Retry: Client-side"]
         
-        OCC3[PaymentIntent<br/>Strategy: Version counter<br/>Why: Multiple attempts per intent<br/>Retry: Client-side]
+        OCC3["PaymentIntent
+        Strategy: Version counter
+        Why: Multiple attempts per intent
+        Retry: Client-side"]
     end
 
-    subgraph PESSIMISTIC[🔒 Pessimistic Locking]
-        PESS1[Booking<br/>Strategy: Row-level lock<br/>Why: Financial commitment<br/>Retry: Server-side]
+    subgraph PESSIMISTIC["🔒 Pessimistic Locking"]
+        PESS1["Booking
+        Strategy: Row-level lock
+        Why: Financial commitment
+        Retry: Server-side"]
         
-        PESS2[Payment<br/>Strategy: Row-level lock<br/>Why: Funds transfer<br/>Retry: Server-side]
+        PESS2["Payment
+        Strategy: Row-level lock
+        Why: Funds transfer
+        Retry: Server-side"]
         
-        PESS3[SubsidyLedger<br/>Strategy: Row-level lock<br/>Why: Audit trail<br/>Retry: Server-side]
+        PESS3["SubsidyLedger
+        Strategy: Row-level lock
+        Why: Audit trail
+        Retry: Server-side"]
     end
 
-    subgraph SINGLE_WRITER[✅ Single-Writer (No Concurrency Control)]
-        SW1[Match<br/>Strategy: Write-once<br/>Why: Immutable after completion<br/>Retry: Not applicable]
+    subgraph SINGLE_WRITER["✅ Single-Writer (No Concurrency Control)"]
+        SW1["Match
+        Strategy: Write-once
+        Why: Immutable after completion
+        Retry: Not applicable"]
         
-        SW2[PeerReview<br/>Strategy: Write-once after seal<br/>Why: Immutable after seal<br/>Retry: Not applicable]
+        SW2["PeerReview
+        Strategy: Write-once after seal
+        Why: Immutable after seal
+        Retry: Not applicable"]
         
-        SW3[Trust Profiles<br/>Strategy: Append-only<br/>Why: Event sourcing<br/>Retry: Idempotent append]
+        SW3["Trust Profiles
+        Strategy: Append-only
+        Why: Event sourcing
+        Retry: Idempotent append"]
     end
 
-    subgraph DECISION_FACTORS[Decision Factors]
-        DF1[OCC when:<br/>• High read:write ratio<br/>• Low conflict probability<br/>• Client can retry]
+    subgraph DECISION_FACTORS["Decision Factors"]
+        DF1["OCC when:
+        • High read:write ratio
+        • Low conflict probability
+        • Client can retry"]
         
-        DF2[Pessimistic when:<br/>• Financial operations<br/>• High conflict probability<br/>• Server must guarantee]
+        DF2["Pessimistic when:
+        • Financial operations
+        • High conflict probability
+        • Server must guarantee"]
         
-        DF3[Single-writer when:<br/>• Immutable aggregates<br/>• Append-only logs<br/>• No conflicts possible]
+        DF3["Single-writer when:
+        • Immutable aggregates
+        • Append-only logs
+        • No conflicts possible"]
     end
 
     OCC1 -.-> DF1
@@ -897,44 +1294,89 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    subgraph USER_PARTITIONED[👤 User-Partitioned Aggregates]
-        UP1[Booking<br/>Partition: userId<br/>Why: User-centric queries<br/>Shard: Consistent hash]
+    subgraph USER_PARTITIONED["👤 User-Partitioned Aggregates"]
+        UP1["Booking
+        Partition: userId
+        Why: User-centric queries
+        Shard: Consistent hash"]
         
-        UP2[Trust Profiles<br/>Partition: userId<br/>Why: User-centric queries<br/>Shard: Consistent hash]
+        UP2["Trust Profiles
+        Partition: userId
+        Why: User-centric queries
+        Shard: Consistent hash"]
         
-        UP3[PaymentIntent<br/>Partition: userId<br/>Why: User payment history<br/>Shard: Consistent hash]
+        UP3["PaymentIntent
+        Partition: userId
+        Why: User payment history
+        Shard: Consistent hash"]
     end
 
-    subgraph SESSION_PARTITIONED[🎮 Session-Partitioned Aggregates]
-        SP1[Session<br/>Partition: sessionId<br/>Why: Session-centric operations<br/>Shard: Consistent hash]
+    subgraph SESSION_PARTITIONED["🎮 Session-Partitioned Aggregates"]
+        SP1["Session
+        Partition: sessionId
+        Why: Session-centric operations
+        Shard: Consistent hash"]
         
-        SP2[Match<br/>Partition: sessionId<br/>Why: Co-located with Session<br/>Shard: Consistent hash]
+        SP2["Match
+        Partition: sessionId
+        Why: Co-located with Session
+        Shard: Consistent hash"]
         
-        SP3[Seat (entity)<br/>Partition: sessionId<br/>Why: Within Session aggregate<br/>Shard: Consistent hash]
+        SP3["Seat (entity)
+        Partition: sessionId
+        Why: Within Session aggregate
+        Shard: Consistent hash"]
     end
 
-    subgraph TIME_PARTITIONED[📅 Time-Partitioned Aggregates]
-        TP1[TimeSlot<br/>Partition: date + venueId<br/>Why: Time-range queries<br/>Shard: Range-based]
+    subgraph TIME_PARTITIONED["📅 Time-Partitioned Aggregates"]
+        TP1["TimeSlot
+        Partition: date + venueId
+        Why: Time-range queries
+        Shard: Range-based"]
         
-        TP2[SubsidyLedger<br/>Partition: date<br/>Why: Audit trail queries<br/>Shard: Range-based]
+        TP2["SubsidyLedger
+        Partition: date
+        Why: Audit trail queries
+        Shard: Range-based"]
         
-        TP3[KarmaLedger<br/>Partition: date<br/>Why: Historical queries<br/>Shard: Range-based]
+        TP3["KarmaLedger
+        Partition: date
+        Why: Historical queries
+        Shard: Range-based"]
     end
 
-    subgraph COMPOSITE_PARTITIONED[🔀 Composite-Partitioned Aggregates]
-        CP1[PeerReview<br/>Partition: sessionId + userId<br/>Why: Session + user queries<br/>Shard: Composite hash]
+    subgraph COMPOSITE_PARTITIONED["🔀 Composite-Partitioned Aggregates"]
+        CP1["PeerReview
+        Partition: sessionId + userId
+        Why: Session + user queries
+        Shard: Composite hash"]
         
-        CP2[CancellationCase<br/>Partition: targetId + initiatorId<br/>Why: Bilateral queries<br/>Shard: Composite hash]
+        CP2["CancellationCase
+        Partition: targetId + initiatorId
+        Why: Bilateral queries
+        Shard: Composite hash"]
     end
 
-    subgraph SCALING_PATTERNS[Scaling Patterns]
-        PAT1[User-partitioned:<br/>• Scales with user growth<br/>• Hot users = hot shards<br/>• Rebalance on growth]
+    subgraph SCALING_PATTERNS["Scaling Patterns"]
+        PAT1["User-partitioned:
+        • Scales with user growth
+        • Hot users = hot shards
+        • Rebalance on growth"]
         
-        PAT2[Session-partitioned:<br/>• Scales with sessions<br/>• Even distribution<br/>• No hot shards]
+        PAT2["Session-partitioned:
+        • Scales with sessions
+        • Even distribution
+        • No hot shards"]
         
-        PAT3[Time-partitioned:<br/>• Scales with time<br/>• Archive old partitions<br/>• Predictable growth]
+        PAT3["Time-partitioned:
+        • Scales with time
+        • Archive old partitions
+        • Predictable growth"]
         
-        PAT4[Composite-partitioned:<br/>• Scales with both<br/>• Complex rebalancing<br/>• Use sparingly]
+        PAT4["Composite-partitioned:
+        • Scales with both
+        • Complex rebalancing
+        • Use sparingly"]
     end
 
     UP1 -.-> PAT1
@@ -957,43 +1399,71 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    subgraph TRUST_ANTIPATTERNS[❌ Trust Anti-Patterns (DG-1 Violations)]
-        TAP1[Composed TrustScore<br/>Detection: Column named 'reputation'<br/>Fix: Delete column, use policy]
+    subgraph TRUST_ANTIPATTERNS["❌ Trust Anti-Patterns (DG-1 Violations)"]
+        TAP1["Composed TrustScore
+        Detection: Column named 'reputation'
+        Fix: Delete column, use policy"]
         
-        TAP2[Cache-dependent decision<br/>Detection: Decision breaks on cache miss<br/>Fix: Make cache optional]
+        TAP2["Cache-dependent decision
+        Detection: Decision breaks on cache miss
+        Fix: Make cache optional"]
         
-        TAP3[Missing use_case parameter<br/>Detection: getReputation(userId)<br/>Fix: Add use_case parameter]
+        TAP3["Missing use_case parameter
+        Detection: getReputation(userId)
+        Fix: Add use_case parameter"]
     end
 
-    subgraph HOST_ANTIPATTERNS[❌ Host Anti-Patterns (DG-2 Violations)]
-        HAP1[Host mutates coordination<br/>Detection: Host imports Coordination types<br/>Fix: Remove imports]
+    subgraph HOST_ANTIPATTERNS["❌ Host Anti-Patterns (DG-2 Violations)"]
+        HAP1["Host mutates coordination
+        Detection: Host imports Coordination types
+        Fix: Remove imports"]
         
-        HAP2[Host in saga orchestration<br/>Detection: Host as saga step<br/>Fix: Use capability check only]
+        HAP2["Host in saga orchestration
+        Detection: Host as saga step
+        Fix: Use capability check only"]
         
-        HAP3[Host triggers workflows<br/>Detection: Host emits non-capability events<br/>Fix: Emit capability events only]
+        HAP3["Host triggers workflows
+        Detection: Host emits non-capability events
+        Fix: Emit capability events only"]
     end
 
-    subgraph POLICY_ANTIPATTERNS[❌ Policy Anti-Patterns (DG-3 Violations)]
-        PAP1[Policy writes to DB<br/>Detection: Repository injection<br/>Fix: Return decision object]
+    subgraph POLICY_ANTIPATTERNS["❌ Policy Anti-Patterns (DG-3 Violations)"]
+        PAP1["Policy writes to DB
+        Detection: Repository injection
+        Fix: Return decision object"]
         
-        PAP2[Policy calls external system<br/>Detection: HTTP client injection<br/>Fix: Pass data as input]
+        PAP2["Policy calls external system
+        Detection: HTTP client injection
+        Fix: Pass data as input"]
         
-        PAP3[Policy emits events<br/>Detection: Event publisher injection<br/>Fix: Return decision, caller emits]
+        PAP3["Policy emits events
+        Detection: Event publisher injection
+        Fix: Return decision, caller emits"]
     end
 
-    subgraph RECOVERY_ANTIPATTERNS[❌ Recovery Anti-Patterns (DG-4/5 Violations)]
-        RAP1[Aggregate emits *Cancelled<br/>Detection: Event name ends with 'Cancelled'<br/>Fix: Emit *DeviationRequested]
+    subgraph RECOVERY_ANTIPATTERNS["❌ Recovery Anti-Patterns (DG-4/5 Violations)"]
+        RAP1["Aggregate emits *Cancelled
+        Detection: Event name ends with 'Cancelled'
+        Fix: Emit *DeviationRequested"]
         
-        RAP2[Multiple emitters of canonical<br/>Detection: *Cancelled from non-Recovery<br/>Fix: Route through Recovery]
+        RAP2["Multiple emitters of canonical
+        Detection: *Cancelled from non-Recovery
+        Fix: Route through Recovery"]
         
-        RAP3[Recovery bypassed<br/>Detection: Direct cancellation<br/>Fix: Always go through Recovery]
+        RAP3["Recovery bypassed
+        Detection: Direct cancellation
+        Fix: Always go through Recovery"]
     end
 
-    subgraph DETECTION_TOOLS[🔍 Detection Tools]
-        DT1[Static analysis<br/>Lint rules for imports]
-        DT2[Architecture tests<br/>ArchUnit / NetArchTest]
-        DT3[Event schema validation<br/>Event naming conventions]
-        DT4[Code review checklist<br/>PR template]
+    subgraph DETECTION_TOOLS["🔍 Detection Tools"]
+        DT1["Static analysis
+        Lint rules for imports"]
+        DT2["Architecture tests
+        ArchUnit / NetArchTest"]
+        DT3["Event schema validation
+        Event naming conventions"]
+        DT4["Code review checklist
+        PR template"]
     end
 
     TAP1 --> DT1
