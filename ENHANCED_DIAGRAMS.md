@@ -562,56 +562,67 @@ flowchart TB
 **Why it matters:** Current D8 shows only Game-to-Match. This shows parallel flows.
 
 ```mermaid
-timeline
-    title Event Storming Big Picture - All Major Flows
-    
-    section Flow 1: Game Creation → Match
-        GameProposed : User intent
-        GameOpened : Accepts joiners
-        SeatHeld : User reserves (TTL)
-        PaymentCaptured : Funds transferred
-        SeatConfirmed : Booking complete
-        SessionScheduled : Venue + time locked
-        MatchStarted : Physical play begins
-        MatchCompleted : Post-event truth
-        
-    section Flow 2: Cancellation Cascade
-        BookingDeviationRequested : Player cancels
-        CancellationCaseOpened : Recovery owns
-        RefundEligibilityEvaluated : Policy decision
-        RefundIssued : Financial executes
-        BookingCancelled : Canonical event (L1)
-        SeatReleased : Capacity freed
-        ReliabilityObserved : Trust signal
-        
-    section Flow 3: Replacement Search
-        ReplacementCaseOpened : Seat vacated
-        CandidatesRanked : Matchmaking filters
-        CandidatesNotified : Push/SMS/email
-        ReplacementFound : First confirmer
-        SubsidyDecisionMade : Subsidy applied
-        SubsidyLedgerAppended : Recorded
-        
-    section Flow 4: No-Show Detection
-        MatchStarted : Attendance check
-        NoShowCaseOpened : Missing player
-        ReliabilityPenaltyApplied : Trust penalty
-        ReliabilityProfileUpdated : Profile updated
-        
-    section Flow 5: Dispute Resolution
-        DisputeCaseRaised : Player disputes
-        DisputeEvidenceSubmitted : Evidence
-        DisputeCaseResolved : Adjudication
-        ObservationReversed : Trust reversed (EVT-REC-012)
-        PeerReviewAnnotated : Review marked
-        
-    section Flow 6: BNPL Default
-        BNPLObligationCreated : Buy-now-pay-later
-        BNPLPaymentMissed : Payment missed
-        BNPLDefaultRequested : Deviation
-        BNPLDefaultCaseOpened : Recovery owns
-        BNPLDefaulted : Canonical event
-        FinancialTrustObserved : Trust penalty
+flowchart LR
+    subgraph F1["Flow 1 · Game Creation → Match"]
+        direction LR
+        E1A["GameProposed\nUser intent"] --> E1B["GameOpened\nAccepts joiners"]
+        E1B --> E1C["SeatHeld\nTTL reserve"]
+        E1C --> E1D["PaymentCaptured\nFunds transferred"]
+        E1D --> E1E["SeatConfirmed\nBooking complete"]
+        E1E --> E1F["SessionScheduled\nVenue + time locked"]
+        E1F --> E1G["MatchStarted\nPlay begins"]
+        E1G --> E1H["MatchCompleted\nPost-event truth"]
+    end
+
+    subgraph F2["Flow 2 · Cancellation Cascade"]
+        direction LR
+        E2A["BookingDeviationRequested\nPlayer cancels"] --> E2B["CancellationCaseOpened\nRecovery owns"]
+        E2B --> E2C["RefundEligibilityEvaluated\nPolicy decision"]
+        E2C --> E2D["RefundIssued\nFinancial executes"]
+        E2D --> E2E["BookingCancelled\nCanonical event L1"]
+        E2E --> E2F["SeatReleased\nCapacity freed"]
+        E2F --> E2G["ReliabilityObserved\nTrust signal"]
+    end
+
+    subgraph F3["Flow 3 · Replacement Search"]
+        direction LR
+        E3A["ReplacementCaseOpened\nSeat vacated"] --> E3B["CandidatesRanked\nMatchmaking filters"]
+        E3B --> E3C["CandidatesNotified\nPush/SMS/email"]
+        E3C --> E3D["ReplacementFound\nFirst confirmer"]
+        E3D --> E3E["SubsidyDecisionMade\nSubsidy applied"]
+        E3E --> E3F["SubsidyLedgerAppended\nRecorded"]
+    end
+
+    subgraph F4["Flow 4 · No-Show Detection"]
+        direction LR
+        E4A["MatchStarted\nAttendance check"] --> E4B["NoShowCaseOpened\nMissing player"]
+        E4B --> E4C["ReliabilityPenaltyApplied\nTrust penalty"]
+        E4C --> E4D["ReliabilityProfileUpdated\nProfile updated"]
+    end
+
+    subgraph F5["Flow 5 · Dispute Resolution"]
+        direction LR
+        E5A["DisputeCaseRaised\nPlayer disputes"] --> E5B["DisputeEvidenceSubmitted\nEvidence"]
+        E5B --> E5C["DisputeCaseResolved\nAdjudication"]
+        E5C --> E5D["ObservationReversed\nEVT-REC-012"]
+        E5D --> E5E["PeerReviewAnnotated\nReview marked"]
+    end
+
+    subgraph F6["Flow 6 · BNPL Default"]
+        direction LR
+        E6A["BNPLObligationCreated\nBuy-now-pay-later"] --> E6B["BNPLPaymentMissed\nPayment missed"]
+        E6B --> E6C["BNPLDefaultRequested\nDeviation"]
+        E6C --> E6D["BNPLDefaultCaseOpened\nRecovery owns"]
+        E6D --> E6E["BNPLDefaulted\nCanonical event"]
+        E6E --> E6F["FinancialTrustObserved\nTrust penalty"]
+    end
+
+    style F1 fill:#1e40af,color:#fff,stroke:#1e3a8a,stroke-width:2px
+    style F2 fill:#dc2626,color:#fff,stroke:#7A1F1C,stroke-width:2px
+    style F3 fill:#16a34a,color:#fff,stroke:#15803d,stroke-width:2px
+    style F4 fill:#f97316,color:#fff,stroke:#d97706,stroke-width:2px
+    style F5 fill:#7c3aed,color:#fff,stroke:#5b21b6,stroke-width:2px
+    style F6 fill:#0f766e,color:#fff,stroke:#0d5c55,stroke-width:2px
 ```
 
 ---
