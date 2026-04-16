@@ -1,4 +1,4 @@
-# Playo DDD Enhanced Diagram Suite
+#  DDD Enhanced Diagram Suite
 
 **Purpose:** This document extends the existing v7 and v8 diagrams with deeper architectural insights derived from understanding the domain model evolution from v6 → v6.1 → v7 → v8.
 
