@@ -1,6 +1,6 @@
 # Playo DDD v7 Mermaid Diagram Suite
 
-Complete diagram suite for the v7 domain model. All diagrams validated against v7.xlsx specification.
+Complete diagram suite for the v7 domain model. All diagrams use GitHub-compatible mermaid syntax.
 
 ---
 
@@ -8,30 +8,26 @@ Complete diagram suite for the v7 domain model. All diagrams validated against v
 
 ```mermaid
 flowchart TD
-    COORDINATION[Coordination<br/>6 aggregates]:::core
-    RECOVERY[Recovery<br/>4 aggregates]:::core
-    TRUST_SKILL[Trust/Skill<br/>1 aggregate]:::core
-    TRUST_RELIABILITY[Trust/Reliability<br/>1 aggregate]:::core
-    TRUST_FINANCIAL[Trust/Financial<br/>1 aggregate]:::core
-    TRUST_COMMUNITY[Trust/Community<br/>1 aggregate]:::core
+    COORDINATION[Coordination<br/>6 aggregates]
+    RECOVERY[Recovery<br/>4 aggregates]
+    TRUST_SKILL[Trust/Skill<br/>1 aggregate]
+    TRUST_RELIABILITY[Trust/Reliability<br/>1 aggregate]
+    TRUST_FINANCIAL[Trust/Financial<br/>1 aggregate]
+    TRUST_COMMUNITY[Trust/Community<br/>1 aggregate]
 
-    INVENTORY[Inventory<br/>3 aggregates]:::supporting
-    PARTNER[Partner Relations<br/>2 aggregates]:::supporting
-    PRICING[Pricing<br/>2 aggregates]:::supporting
-    FINANCIAL[Financial<br/>4 aggregates]:::supporting
-    HOSTING[Hosting<br/>1 aggregate]:::supporting
-    GAMIFICATION[Gamification<br/>2 aggregates]:::supporting
-    COMMUNITY[Community<br/>2 aggregates]:::supporting
-    TRAINING[Training<br/>2 aggregates]:::supporting
+    INVENTORY[Inventory<br/>3 aggregates]
+    PARTNER[Partner Relations<br/>2 aggregates]
+    PRICING[Pricing<br/>2 aggregates]
+    FINANCIAL[Financial<br/>4 aggregates]
+    HOSTING[Hosting<br/>1 aggregate]
+    GAMIFICATION[Gamification<br/>2 aggregates]
+    COMMUNITY[Community<br/>2 aggregates]
+    TRAINING[Training<br/>2 aggregates]
 
-    IDENTITY[Identity]:::generic
-    NOTIFICATIONS[Notifications ACL]:::generic
-    PAYMENTS[Payments ACL]:::generic
-    MAPS[Maps ACL]:::generic
-
-    classDef core fill:#dc2626,color:white,stroke:none,font-weight:bold
-    classDef supporting fill:#f97316,color:white,stroke:none
-    classDef generic fill:#737373,color:white,stroke:none
+    IDENTITY[Identity]
+    NOTIFICATIONS[Notifications ACL]
+    PAYMENTS[Payments ACL]
+    MAPS[Maps ACL]
 
     note over COORDINATION,TRUST_COMMUNITY: CORE DOMAIN<br/>A-team ownership<br/>Zero compromises allowed
     note over INVENTORY,TRAINING: SUPPORTING DOMAIN<br/>Build internally<br/>High quality required
@@ -96,26 +92,7 @@ flowchart TD
     RECOVERY -->|Customer-Supplier| TRUST_FINANCIAL
     RECOVERY -->|Customer-Supplier| TRUST_COMMUNITY
 
-    style COORDINATION fill:#dc2626,color:white
-    style RECOVERY fill:#dc2626,color:white
-    style TRUST_SKILL fill:#dc2626,color:white
-    style TRUST_RELIABILITY fill:#dc2626,color:white
-    style TRUST_FINANCIAL fill:#dc2626,color:white
-    style TRUST_COMMUNITY fill:#dc2626,color:white
-
-    style INVENTORY fill:#f97316,color:white
-    style PARTNER fill:#f97316,color:white
-    style PRICING fill:#f97316,color:white
-    style FINANCIAL fill:#f97316,color:white
-    style HOSTING fill:#f97316,color:white
-    style GAMIFICATION fill:#f97316,color:white
-    style COMMUNITY fill:#f97316,color:white
-    style TRAINING fill:#f97316,color:white
-
-    style IDENTITY fill:#737373,color:white
-    style NOTIFICATIONS fill:#737373,color:white
-    style PAYMENTS fill:#737373,color:white
-    style MAPS fill:#737373,color:white
+    %% Note: Styling removed for GitHub compatibility
 ```
 
 ---
@@ -261,7 +238,7 @@ flowchart LR
     RECOVERY -->|*Cancelled/*Failed| NOTIFICATIONS
     RECOVERY -->|ReliabilityPenaltyApplied| GAMIFICATION
 
-    note over RECOVERY: DG-4: Recovery owns ALL deviations<br/>DG-5: Aggregates emit DeviationRequested<br/>Recovery publishes canonical failure events
+    note over RECOVERY: DG-4: Recovery owns ALL deviations<br/>DG-5: Aggregates emit DeviationRequested only<br/>Recovery publishes canonical failure events
 ```
 
 ---
@@ -288,12 +265,11 @@ flowchart TD
     end
 
     %% FORBIDDEN synchronous dependency
-    S2 -.->|❌ FORBIDDEN<br/>L2 Violation| M2
-    linkStyle 5 stroke:#ef4444,stroke-dasharray: 5 5
+    S2 -.->|❌ FORBIDDEN L2 Violation| M2
 
     %% ALLOWED eventual dependencies
-    M3 -->|✅ Eventual<br/>PaymentCaptured| S3
-    M4 -->|✅ Eventual<br/>PaymentFailed| S1
+    M3 -->|✅ Eventual PaymentCaptured| S3
+    M4 -->|✅ Eventual PaymentFailed| S1
 
     note over CAPACITY_TRACK: Never blocks waiting for payment<br/>Atomic counters only<br/>Never depends on external systems
     note over MONEY_TRACK: Financial commitment only<br/>Never holds capacity<br/>Never modifies Session state directly
